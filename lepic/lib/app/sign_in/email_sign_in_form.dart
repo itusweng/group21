@@ -105,8 +105,8 @@ class _EmailFormState extends State<EmailForm> {
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
                   (Set<MaterialState> states) {
                 if (states.contains(MaterialState.pressed))
-                  return Colors.orange;
-                return Colors.white; // Use the component's default.
+                  return Colors.green;
+                return Colors.indigo; // Use the component's default.
               },
             ),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(

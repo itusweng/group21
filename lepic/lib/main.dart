@@ -15,7 +15,7 @@ class lepicApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lepic',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.indigo,
       ),
       home: LandingPage(auth: Auth()),
     );

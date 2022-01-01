@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "654745861893-bhead4hrniphu6lck75dlk061aqijahs.apps.googleusercontent.com",
+          "client_id": "654745861893-v5o6kpgth12hh6ni5mrov49f7m4j84sk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.lepic",
-            "certificate_hash": "9305eb50f17af07e765ed7ee8fd21b7d17a3fd25"
+            "certificate_hash": "31c7953c220cc51c0b185b0511f4b04936e6bba4"
           }
         },
         {

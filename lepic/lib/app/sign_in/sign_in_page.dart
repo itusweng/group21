@@ -49,7 +49,7 @@ class SignInPage extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               SignInButtonBuilder(
-                text: 'Sign in with Email',
+                text: 'Sign up with Email',
                 icon: Icons.email,
                 onPressed: () => _signInWithEmail(context),
                 backgroundColor: Colors.blueGrey[700]!,

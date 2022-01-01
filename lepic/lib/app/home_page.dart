@@ -57,22 +57,22 @@ class HomePage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Classes',
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_graph),
             label: 'Statistics',
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment),
             label: 'Assessments',
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo,
           ),
 
 
