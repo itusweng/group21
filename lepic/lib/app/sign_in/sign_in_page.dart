@@ -39,7 +39,7 @@ class SignInPage extends StatelessWidget {
               SignInButton(
                 Buttons.Google,
                 text: "Sign up with Google",
-                onPressed: () {},
+                onPressed: _signInWithGoogle,
               ),
               SizedBox(height: 10.0),
               SignInButton(
@@ -58,8 +58,13 @@ class SignInPage extends StatelessWidget {
           ),
   );
   }
-  void _signInWithGoogle(){
+  void _signInWithGoogle() async {
     // To do auth with google
+    try{
+      await auth.signInWithGoogle();
+    }catch(e){
+      print(e.toString());
+    }
   }
 
   void _signInWithEmail(BuildContext context){

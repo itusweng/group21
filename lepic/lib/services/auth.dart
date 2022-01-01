@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase{
   Future<User?> getCurrentUser();
   Stream<User?> authStateChanges();
   Future<User?> signInWithEmail({required String email, required String password});
   Future<User?> signUpWithEmail({required String email, required String password});
+  Future<User?> signInWithGoogle();
   Future<void> logOut();
 
 }
@@ -18,6 +20,32 @@ class Auth implements AuthBase{
   Future<User?> getCurrentUser() async {
     return await _auth.currentUser;
   }
+  @override
+  Future<User?> signInWithGoogle() async {
+    final googleSignIn = GoogleSignIn();
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser != null) {
+      final googleAuth = await googleUser.authentication;
+      if (googleAuth.idToken != null) {
+        final userCredential = await _auth
+            .signInWithCredential(GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+          accessToken: googleAuth.accessToken,
+        ));
+        return userCredential.user;
+      } else {
+        throw FirebaseAuthException(
+          code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+          message: 'Missing Google ID Token',
+        );
+      }
+    } else {
+      throw FirebaseAuthException(
+        code: 'ERROR_ABORTED_BY_USER',
+        message: 'Sign in aborted by user',
+      );
+    }
+  }
 
   @override
   Future<User?> signInWithEmail({required String email, required String password}) async {
@@ -26,8 +54,11 @@ class Auth implements AuthBase{
   }
   @override
   Future<void> logOut() async {
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
     await _auth.signOut();
   }
+
   @override
   Future<User?> signUpWithEmail({required String email, required String password}) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
