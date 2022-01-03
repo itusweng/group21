@@ -32,28 +32,28 @@ class _EmailFormState extends State<EmailForm> {
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        final dr = await showYesNoAlertDialog(
+        final dr = await showAlertDialog(
           context: context,
           titleText: 'Weak Password',
           messageText:
           'The password provided is too weak.',
         );
       } else if (e.code == 'email-already-in-use') {
-        final dr = await showYesNoAlertDialog(
+        final dr = await showAlertDialog(
           context: context,
           titleText: 'Email already in use',
           messageText:
           'The account already exists for that email.',
         );
       } else if (e.code == 'user-not-found') {
-        final dr = await showYesNoAlertDialog(
+        final dr = await showAlertDialog(
           context: context,
           titleText: 'User not found',
           messageText:
           'No user found for that email.',
         );
       } else if (e.code == 'wrong-password') {
-        final dr = await showYesNoAlertDialog(
+        final dr = await showAlertDialog(
           context: context,
           titleText: 'Wrong Password',
           messageText:
@@ -134,7 +134,7 @@ class _EmailFormState extends State<EmailForm> {
 
     );
   }
-  Future<Future> showYesNoAlertDialog({
+  Future<Future> showAlertDialog({
     required BuildContext context,
     required String titleText,
     required String messageText,
