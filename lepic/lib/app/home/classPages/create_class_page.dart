@@ -10,6 +10,7 @@ class CreateClassPage extends StatefulWidget {
   
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
+    database.readClass();
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CreateClassPage(database: database, key: null,),
@@ -38,6 +39,7 @@ class _CreateClassPageState extends State<CreateClassPage> {
         studentList: []);
     await widget.database.addClass(newClass);
     Navigator.of(context).pop();
+
   }
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
-class Classes{
+
+class Classes {
 
   Classes({
     required this.classLevel,
@@ -6,6 +7,7 @@ class Classes{
     required this.creatorName,
     required this.studentList
   });
+
   final String className;
   final String classLevel;
   final String creatorName;
@@ -23,8 +25,9 @@ class Classes{
         studentList: studentList
     );
   }
-  Map<String, dynamic> toMap(){
-    return{
+
+  Map<String, dynamic> toMap() {
+    return {
       'classLevel': classLevel,
       'className': className,
       'creatorName': creatorName,

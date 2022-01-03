@@ -11,10 +11,10 @@ class CreateStudentPage extends StatefulWidget {
   }
 
   @override
-  _AddJobPageState createState() => _AddJobPageState();
+  _CreateStudentPageState createState() => _CreateStudentPageState();
 }
 
-class _AddJobPageState extends State<CreateStudentPage> {
+class _CreateStudentPageState extends State<CreateStudentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

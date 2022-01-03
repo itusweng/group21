@@ -12,6 +12,7 @@ abstract class Database{
   void readClass();
   Stream<List<Classes>> classesStream();
 }
+// in order to create uniqe document id
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 class FirestoreDatabase implements Database{
   FirestoreDatabase ({required this.uid}) : assert(uid != null);
