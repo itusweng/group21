@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exp/app/home/model/class.dart';
+import 'package:exp/app/home/model/student.dart';
 import 'package:exp/services/api_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
@@ -15,9 +16,25 @@ String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 class FirestoreDatabase implements Database{
   FirestoreDatabase ({required this.uid}) : assert(uid != null);
   final String uid;
+  final _FsService = FirestoreService.instance;
 
-  Future<void> addClass(Classes classes) => _setData(
-    path: ApiPath.classes(uid,'class_123'),
+  /*
+  Future<void> addStudent(Students students) => _FsService.setData(
+    path: ApiPath.students(documentIdFromCurrentDate()),
+    data: students.toMap(),
+  );
+  Future<void> addStudentToClass(Students students) => _FsService.setData(
+    path: ApiPath.studentOfClass(uid, documentIdFromCurrentDate(),documentIdFromCurrentDate()),
+    data: students.toMap(),
+  );
+  Stream<List<Students>> studentsStream() => _FsService.collectionStream(
+    path: ApiPath.studentOfClass(uid, classId),
+    builder: (data) => Students.fromMap(data),
+  );
+  */
+
+  Future<void> addClass(Classes classes) => _FsService.setData(
+    path: ApiPath.classes(uid,documentIdFromCurrentDate()),
     data:classes.toMap(),
   );
   void readClass(){
@@ -29,7 +46,7 @@ class FirestoreDatabase implements Database{
         print(snapshot.data()));
     });
   }
-  Stream<List<Classes>> classesStream() => FirestoreService.instance.collectionStream(
+  Stream<List<Classes>> classesStream() => _FsService.collectionStream(
     path: ApiPath.allClasses(uid),
     builder: (data) => Classes.fromMap(data),
   );

@@ -10,7 +10,6 @@ class FirestoreService {
     print('$path: $data');
     await reference.set(data);
   }
-
   Stream<List<T>> collectionStream<T>({
     required String path,
     required T Function(Map<String, dynamic> data) builder,

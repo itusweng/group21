@@ -4,7 +4,6 @@ import 'package:exp/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:exp/services/auth.dart';
 import 'package:provider/provider.dart';
-
 import 'create_class_page.dart';
 
 class ClassPage extends StatelessWidget {
@@ -55,7 +54,6 @@ class ClassPage extends StatelessWidget {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
