@@ -11,7 +11,6 @@ class ClassPage extends StatelessWidget {
   const ClassPage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
 
-
   Future<void> _signOut(BuildContext context) async {
     try {
       Navigator.pop(context, 'OK');
@@ -20,6 +19,7 @@ class ClassPage extends StatelessWidget {
       print(e.toString());
     }
   }
+
   Future<void> _confirmSignOut(BuildContext context) async {
     showDialog(
       context: context,
@@ -38,7 +38,6 @@ class ClassPage extends StatelessWidget {
         ],
       ),
     );
-
   }
 
   @override
@@ -55,11 +54,14 @@ class ClassPage extends StatelessWidget {
         centerTitle: true,
         elevation: 1,
         actions: <Widget>[
-          FloatingActionButton(onPressed: () => _confirmSignOut(context),
-          child: Icon(Icons.logout)),
+          FloatingActionButton(
+              onPressed: () => _confirmSignOut(context),
+              heroTag: 'logout',
+              child: Icon(Icons.logout)),
         ],
       ),
       floatingActionButton: FloatingActionButton(
+          heroTag: 'add',
           onPressed: () => CreateClassPage.show(context),
           child: Icon(Icons.add)),
       body: _buildContents(context),
@@ -73,11 +75,13 @@ class ClassPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Classes>? myList = snapshot.data;
-          final children = myList!.map((classes) => ClassListTile(
-            classes: classes,
-            onTap: () {},
-          ))
-              .toList();
+          final children = myList
+                  ?.map((classes) => ClassListTile(
+                        classes: classes,
+                        onTap: () {},
+                      ))
+                  .toList() ??
+              [];
           return ListView(children: children);
         }
         if (snapshot.hasError) {
@@ -113,8 +117,3 @@ class ClassPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
