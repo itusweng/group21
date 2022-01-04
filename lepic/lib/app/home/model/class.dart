@@ -1,4 +1,3 @@
-
 class Classes {
   Classes(
       {required this.classLevel,
