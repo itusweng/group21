@@ -1,29 +1,26 @@
 
 class Classes {
-
-  Classes({
-    required this.classLevel,
-    required this.className,
-    required this.creatorName,
-    required this.studentList
-  });
+  Classes(
+      {required this.classLevel,
+        required this.className,
+        required this.creatorName,
+        required this.studentList});
 
   final String className;
   final String classLevel;
   final String creatorName;
-  final List<String> studentList;
+  final List<dynamic>? studentList;
 
   factory Classes.fromMap(Map<String, dynamic> data) {
     final String className = data['className'];
     final String classLevel = data['classLevel'];
     final String creatorName = data['creatorName'];
-    final List<String> studentList = data['studentList'];
+    final List<dynamic>? studentList = data['studentList'];
     return Classes(
         className: className,
         classLevel: classLevel,
         creatorName: creatorName,
-        studentList: studentList
-    );
+        studentList: studentList);
   }
 
   Map<String, dynamic> toMap() {

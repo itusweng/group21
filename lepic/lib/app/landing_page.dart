@@ -5,10 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'home/classPages/classes_page.dart';
+import 'home/profilePages/user_info_page.dart';
 
 class LandingPage extends StatelessWidget{
   const LandingPage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class LandingPage extends StatelessWidget{
           return Provider<Database>(
             create: (_) => FirestoreDatabase(uid: user.uid),
             child:ClassPage(auth: auth)
+              //child:UserInfoPage()
           );
         }
         return Scaffold(

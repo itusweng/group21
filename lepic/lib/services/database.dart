@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exp/app/home/model/class.dart';
 import 'package:exp/app/home/model/student.dart';
+import 'package:exp/app/home/model/user.dart';
 import 'package:exp/services/api_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
@@ -11,6 +12,7 @@ abstract class Database{
   Future<void> addClass(Classes classes);
   void readClass();
   Stream<List<Classes>> classesStream();
+  Future<void> createUser(Users user);
 }
 // in order to create uniqe document id
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -33,6 +35,22 @@ class FirestoreDatabase implements Database{
     builder: (data) => Students.fromMap(data),
   );
   */
+  Future<void> createUser(Users user) async {
+    try {
+      final reference = FirebaseFirestore.instance.collection("users");
+      await reference.add({
+        'firstName': user.firstName,
+        'lastName': user.lastName,
+        'email': user.email,
+        'password': user.password,
+        'userType':user.userType,
+        'userId': uid,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   Future<void> addClass(Classes classes) => _FsService.setData(
     path: ApiPath.classes(uid,documentIdFromCurrentDate()),

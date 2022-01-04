@@ -1,4 +1,4 @@
-import 'package:exp/app/home/classPages/students_page.dart';
+import 'package:exp/app/home/studentPages/students_page.dart';
 import 'package:flutter/material.dart';
 
 import 'create_student_page.dart';
@@ -12,18 +12,15 @@ class StudentPage extends StatefulWidget {
       ),
     );
   }
-
   @override
-  _AddJobPageState createState() => _AddJobPageState();
+  _StudentPageState createState() => _StudentPageState();
 }
 
-class _AddJobPageState extends State<StudentPage> {
+class _StudentPageState extends State<StudentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).canvasColor,
-        //title: Text('Profile'),
         title: Text(
           'Students',
           style: TextStyle(

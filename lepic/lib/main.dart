@@ -1,4 +1,5 @@
 import 'package:exp/services/auth.dart';
+import 'package:exp/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

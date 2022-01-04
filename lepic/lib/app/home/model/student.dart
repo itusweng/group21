@@ -1,29 +1,32 @@
 class Students{
   Students({
-    required this.studentName,
-    required this.studentLastname,
+    // TODO add class id
+    required this.studentFirstName,
+    required this.studentLastName,
     required this.studentClass,
   });
-  final String studentName;
+  final String studentFirstName;
+  final String studentLastName;
   final String studentClass;
-  final String studentLastname;
+
 
 
   factory Students.fromMap(Map<String, dynamic> data) {
-    final String studentName = data['studentName'];
+    final String studentFirstName = data['studentFirstName'];
+    final String studentLastName = data['studentLastName'];
     final String studentClass = data['studentClass'];
-    final String studentLastname = data['studentLastname'];
     return Students(
-        studentName: studentName,
+      studentFirstName: studentFirstName,
+      studentLastName: studentLastName,
         studentClass: studentClass,
-        studentLastname: studentLastname,
     );
   }
   Map<String, dynamic> toMap(){
     return{
-      'studentName': studentName,
+      'studentFirstName': studentFirstName,
+      'studentLastname': studentLastName,
       'studentClass': studentClass,
-      'studentLastname': studentLastname,
+
     };
   }
 }

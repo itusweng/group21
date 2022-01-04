@@ -14,8 +14,6 @@ class EmailForm extends StatefulWidget {
 class _EmailFormState extends State<EmailForm> {
   final TextEditingController _email_controller = TextEditingController();
   final TextEditingController _password_controller = TextEditingController();
-  final FocusNode _emailFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
 
   String get _email => _email_controller.text;
   String get _password => _password_controller.text;
@@ -144,8 +142,6 @@ class _EmailFormState extends State<EmailForm> {
       onPressed: () => Navigator.pop(context, 'OK'),
       child: const Text('OK'),
     );
-
-
     // set up the AlertDialog
     final alert = AlertDialog(
       title: Text(titleText),
