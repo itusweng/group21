@@ -42,7 +42,6 @@ class FirestoreDatabase implements Database{
         'firstName': user.firstName,
         'lastName': user.lastName,
         'email': user.email,
-        'password': user.password,
         'userType':user.userType,
         'userId': uid,
       });

@@ -1,10 +1,16 @@
 import 'package:exp/app/home/model/user.dart';
 import 'package:exp/app/home/profilePages/profile_page.dart';
+import 'package:exp/services/auth.dart';
 import 'package:exp/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserInfoPage extends StatefulWidget {
+
+  const UserInfoPage({Key? key, required this.auth}) : super(key: key);
+  final AuthBase auth;
+
+
   @override
   _UserInfoPageState createState() =>
       _UserInfoPageState();
@@ -14,23 +20,23 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   TextEditingController _firstnameController = TextEditingController();
   TextEditingController _lastnameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
   TextEditingController _secretController = TextEditingController();
   String get firstName => _firstnameController.text;
   String get lastName => _lastnameController.text;
-  String get password => _passwordController.text;
-  String get email => _emailController.text;
   String get secretKey => _secretController.text;
 
   String dropdownValue = 'Select User Type';
   String _userType = '' ;
   String _secretKey = '';
 
+
+
   Future<void> writeFb() async{
+    final email = await widget.auth.getCurrentUserEmail();
+
+
     final newUser = Users(firstName: firstName,
       lastName: lastName,
-      password: password,
       email: email,
       userType: _userType,
       userId: '',
@@ -156,27 +162,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   border: OutlineInputBorder(),
                   labelText: 'Last Name',
                 ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email Address',
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-                obscureText: true,
               ),
             ),
 

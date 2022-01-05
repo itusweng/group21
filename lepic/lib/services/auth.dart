@@ -8,6 +8,7 @@ abstract class AuthBase{
   Future<User?> signUpWithEmail({required String email, required String password});
   Future<User?> signInWithGoogle();
   Future<void> logOut();
+  Future<String?> getCurrentUserEmail();
 
 }
 class Auth implements AuthBase{
@@ -19,6 +20,12 @@ class Auth implements AuthBase{
   @override
   Future<User?> getCurrentUser() async {
     return await _auth.currentUser;
+  }
+  @override
+  Future<String?> getCurrentUserEmail() async {
+    String a = await _auth.currentUser!.email.toString();
+    print(a);
+    return a;
   }
   @override
   Future<User?> signInWithGoogle() async {
