@@ -13,6 +13,7 @@ abstract class Database{
   void readClass();
   Stream<List<Classes>> classesStream();
   Future<void> createUser(Users user);
+  Future<void> createClass(Classes classes);
 }
 // in order to create uniqe document id
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -49,6 +50,20 @@ class FirestoreDatabase implements Database{
       print(e);
     }
   }
+  Future<void> createClass(Classes classes) async {
+    try {
+      final reference = FirebaseFirestore.instance.doc(ApiPath.classes(uid,documentIdFromCurrentDate()));
+      await reference.set({
+        'className': classes.className,
+        'classLevel': classes.classLevel,
+        'classId': classes.Id,
+        'creatorName':classes.creatorName,
+        'studentList': classes.studentList,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
 
   Future<void> addClass(Classes classes) => _FsService.setData(
@@ -66,7 +81,7 @@ class FirestoreDatabase implements Database{
   }
   Stream<List<Classes>> classesStream() => _FsService.collectionStream(
     path: ApiPath.allClasses(uid),
-    builder: (data) => Classes.fromMap(data),
+    builder: (data, documentId) => Classes.fromMap(data, documentId),
   );
 
   Future<void> _setData({required String path, required Map<String, dynamic> data}) async {

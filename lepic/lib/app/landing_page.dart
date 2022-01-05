@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import 'home/classPages/classes_page.dart';
 import 'home/profilePages/user_info_page.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatelessWidget{
   const LandingPage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +26,10 @@ class LandingPage extends StatelessWidget {
             );
           }
           return Provider<Database>(
-<<<<<<< Updated upstream
-              create: (_) => FirestoreDatabase(uid: user.uid),
-              child: UserInfoPage()
-              //child:UserInfoPage()
-              );
-=======
             create: (_) => FirestoreDatabase(uid: user.uid),
-            //child:ClassPage(auth: auth)
-              child:UserInfoPage(auth: auth)
+            child:ClassPage(auth: auth)
+              //child:UserInfoPage(auth: auth)
           );
->>>>>>> Stashed changes
         }
         return Scaffold(
           body: Center(
