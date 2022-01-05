@@ -73,7 +73,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         Navigator.of(context).pop();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  ProfilePage()),
+          MaterialPageRoute(builder: (context) =>  ProfilePage(auth: widget.auth)),
         );
       }
       else {
@@ -92,7 +92,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         writeFb();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  ProfilePage()),
+          MaterialPageRoute(builder: (context) =>  ProfilePage(auth: widget.auth)),
         );
       }
       else {
@@ -111,7 +111,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         writeFb();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  ProfilePage()),
+          MaterialPageRoute(builder: (context) =>  ProfilePage(auth: widget.auth)),
         );
       }
       else {

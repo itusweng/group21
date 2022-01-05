@@ -19,7 +19,7 @@ class LandingPage extends StatelessWidget{
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
-          String currentEmail = user!.email.toString();
+          //String currentEmail = user!.email.toString();
           if (user == null) {
             return SignInPage(
               auth: auth,
@@ -27,8 +27,8 @@ class LandingPage extends StatelessWidget{
           }
           return Provider<Database>(
             create: (_) => FirestoreDatabase(uid: user.uid),
-            child:ClassPage(auth: auth)
-              //child:UserInfoPage(auth: auth)
+            //child:ClassPage(auth: auth)
+              child:UserInfoPage(auth: auth)
           );
         }
         return Scaffold(

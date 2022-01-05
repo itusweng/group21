@@ -38,8 +38,8 @@ class FirestoreDatabase implements Database{
   */
   Future<void> createUser(Users user) async {
     try {
-      final reference = FirebaseFirestore.instance.collection("users");
-      await reference.add({
+      final reference = FirebaseFirestore.instance.doc("users/$uid");
+      await reference.set({
         'firstName': user.firstName,
         'lastName': user.lastName,
         'email': user.email,
