@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/app/home/model/user.dart';
 import 'package:exp/app/home/studentPages/students_page.dart';
 import 'package:exp/app/home/model/class.dart';
 import 'package:exp/services/database.dart';
@@ -38,6 +39,7 @@ class _CreateClassPageState extends State<CreateClassPage> {
 
     Navigator.of(context).pop();
     try {
+
       final classFirst = await widget.database.classesStream().first;
       final allNames = classFirst.map((classes) => classes.className).toList();
       if (widget.classes != null) {

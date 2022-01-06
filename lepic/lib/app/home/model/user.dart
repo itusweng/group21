@@ -1,4 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/services/api_path.dart';
+import 'package:flutter/cupertino.dart';
+
 class Users {
   Users({
     required this.firstName,
@@ -13,4 +17,5 @@ class Users {
   final String? email;
   final String userType;
   final String userId;
+
 }
