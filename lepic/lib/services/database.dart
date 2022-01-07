@@ -1,11 +1,12 @@
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exp/app/home/model/class.dart';
 import 'package:exp/app/home/model/student.dart';
 import 'package:exp/app/home/model/user.dart';
 import 'package:exp/services/api_path.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
+
 
 import 'firestore_service.dart';
 abstract class Database{
@@ -14,6 +15,7 @@ abstract class Database{
   Stream<List<Classes>> classesStream();
   Future<void> createUser(Users user);
   Future<void> createClass(Classes classes);
+  Future<void> createStudent(Students student);
 }
 // in order to create uniqe document id
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -22,20 +24,27 @@ class FirestoreDatabase implements Database{
   final String uid;
   final _FsService = FirestoreService.instance;
 
-  /*
-  Future<void> addStudent(Students students) => _FsService.setData(
-    path: ApiPath.students(documentIdFromCurrentDate()),
-    data: students.toMap(),
-  );
-  Future<void> addStudentToClass(Students students) => _FsService.setData(
-    path: ApiPath.studentOfClass(uid, documentIdFromCurrentDate(),documentIdFromCurrentDate()),
-    data: students.toMap(),
-  );
-  Stream<List<Students>> studentsStream() => _FsService.collectionStream(
-    path: ApiPath.studentOfClass(uid, classId),
-    builder: (data) => Students.fromMap(data),
-  );
-  */
+  Future<void> createStudent(Students student) async {
+    try {
+      final stuId = student.studentId;
+      print(stuId);
+      final reference = FirebaseFirestore.instance.doc("students/$stuId");
+      final cId = student.classId;
+      await reference.set({
+        'studentFirstName': student.studentFirstName,
+        'studentLastName': student.studentLastName,
+        'studentClass': student.studentClass,
+        'classId': student.classId,
+        'studentId': student.studentId,
+      });
+      final classRef = FirebaseFirestore.instance.doc("users/$uid/classes/$cId");
+      await classRef.set({'studentList': FieldValue.arrayUnion([student.studentId])},SetOptions(merge: true));
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> createUser(Users user) async {
     try {
       final reference = FirebaseFirestore.instance.doc("users/$uid");
@@ -52,7 +61,7 @@ class FirestoreDatabase implements Database{
   }
   Future<void> createClass(Classes classes) async {
     try {
-      final reference = FirebaseFirestore.instance.doc(ApiPath.classes(uid,documentIdFromCurrentDate()));
+      final reference = FirebaseFirestore.instance.doc(ApiPath.classes(uid,classes.Id));
       await reference.set({
         'className': classes.className,
         'classLevel': classes.classLevel,
@@ -83,6 +92,13 @@ class FirestoreDatabase implements Database{
     path: ApiPath.allClasses(uid),
     builder: (data, documentId) => Classes.fromMap(data, documentId),
   );
+  /*
+  Stream<List<String>> classesStream() => _FsService.collectionStream(
+    path: ApiPath.allClasses(uid),
+    builder: (data, documentId) => Classes.fromMap(data, documentId).className,
+  );
+
+   */
 
   Future<void> _setData({required String path, required Map<String, dynamic> data}) async {
     final documentRef = FirebaseFirestore.instance.doc(path);

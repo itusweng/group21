@@ -13,6 +13,7 @@ class ClassListTile extends StatelessWidget {
       title: Text(classes.className),
       trailing: Icon(Icons.chevron_right),
       onTap: onTap,
+      // TODO onlong press edit
     );
   }
 }

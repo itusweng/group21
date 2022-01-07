@@ -1,13 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/app/home/model/class.dart';
 import 'package:exp/app/home/studentPages/students_page.dart';
+import 'package:exp/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'create_student_page.dart';
 
 class StudentPage extends StatefulWidget {
-  static Future<void> show(BuildContext context) async {
+
+  const StudentPage({ Key? key ,this.classId}) : super(key: key);
+  final String? classId;
+
+  static Future<void> show(BuildContext context, String classId) async {
+
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => StudentPage(),
+        builder: (context) => StudentPage(classId: classId,),
         fullscreenDialog: true,
       ),
     );
@@ -17,6 +27,7 @@ class StudentPage extends StatefulWidget {
 }
 
 class _StudentPageState extends State<StudentPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,9 +42,45 @@ class _StudentPageState extends State<StudentPage> {
         centerTitle: true,
         elevation: 1,
       ),
+
       floatingActionButton: FloatingActionButton(
+
           onPressed: () => CreateStudentPage.show(context),
+          //onPressed: () => _saveStudent(),
           child: Icon(Icons.add)),
+      body: _buildContents(context),
     );
   }
+
+  Widget _buildContents(BuildContext context) {
+  String id =FirebaseAuth.instance.currentUser!.uid;
+  final reference = FirebaseFirestore.instance.collection('students').where('classId', isEqualTo: widget.classId);
+  return StreamBuilder<QuerySnapshot>(
+      stream: reference.get().asStream(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return ListView(
+          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+            return ListTile(
+              title: Text(data['studentFirstName']+' '+data['studentLastName']),
+              subtitle: Text(data['studentClass']),
+              isThreeLine: true,
+            );
+          }).toList(),
+        );
+      },
+    );
+
+
+  }
+
+
 }

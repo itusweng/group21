@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'home/classPages/classes_page.dart';
+import 'home/model/class.dart';
 import 'home/profilePages/user_info_page.dart';
 import 'package:exp/app/home/model/user.dart';
 String? userType = '';
@@ -62,7 +63,6 @@ class LandingPage extends StatelessWidget{
       },
     );
   }
-
 
    Future<void> getUserType(String uid) async {
     final reference = FirebaseFirestore.instance.doc(ApiPath.user(uid));
