@@ -65,6 +65,7 @@ class _AudioPageState extends State<AudioPage> {
     String twoDigites(int n) => n.toString().padLeft(2,'0');
     final minutes = twoDigites(duration.inMinutes.remainder(60));
     final seconds = twoDigites(duration.inSeconds.remainder(60));
+    final student = true;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,7 +93,7 @@ class _AudioPageState extends State<AudioPage> {
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         ),
       ),
-      body: SingleChildScrollView(
+      body: student ? SingleChildScrollView(
         reverse: true,
         child: Container(
             padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
@@ -101,8 +102,8 @@ class _AudioPageState extends State<AudioPage> {
                   Container(
                     child:
                     Text(
-                      "Example test",
-                      style: TextStyle(fontSize: 30)
+                      "Taste is how food feels in your mouth. Basically, it is whether it is good food or not. For example, I think McDonald’s tastes good, but some people think it tastes bad. I think dark chocolate tastes better than milk chocolate, but you might think the opposite. If something tastes of nothing, then it does not have a strong taste.",
+                      style: TextStyle(fontSize: 25)
                       ),
                     
                   ),
@@ -126,6 +127,8 @@ class _AudioPageState extends State<AudioPage> {
                   
                 ])
         ),
+      ) : Center(
+        child: TextField(),
       ),
 
     );
