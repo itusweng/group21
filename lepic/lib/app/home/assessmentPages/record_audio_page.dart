@@ -65,7 +65,6 @@ class _AudioPageState extends State<AudioPage> {
     String twoDigites(int n) => n.toString().padLeft(2,'0');
     final minutes = twoDigites(duration.inMinutes.remainder(60));
     final seconds = twoDigites(duration.inSeconds.remainder(60));
-    final student = true;
 
     return Scaffold(
       appBar: AppBar(
@@ -93,7 +92,7 @@ class _AudioPageState extends State<AudioPage> {
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         ),
       ),
-      body: student ? SingleChildScrollView(
+      body: SingleChildScrollView(
         reverse: true,
         child: Container(
             padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
@@ -127,9 +126,7 @@ class _AudioPageState extends State<AudioPage> {
 
                 ])
         ),
-      ) : Center(
-        child: TextField(),
-      ),
+      )
 
     );
   }
