@@ -94,7 +94,11 @@ class _AudioPageState extends State<AudioPage> {
           repeatPauseDuration: const Duration(milliseconds: 100),
           repeat: true,
           child: FloatingActionButton(
-            onPressed: _listen,
+            onPressed:  () {_listen();
+            Future.delayed(Duration(seconds:60)).whenComplete((){
+              oneMinWord();}); 
+            },
+              
             child: Icon(_isListening ? Icons.mic : Icons.mic_none),
           ),
         ),
@@ -185,7 +189,16 @@ class _AudioPageState extends State<AudioPage> {
       stopTimer();
       setState(() => _isListening = false);
       _speech.stop();
-
+      
+      final List l = _text.split(" ");
+      print(l.length);
     }
   }
+  
+void oneMinWord(){
+    if(_isListening){
+      final List l = _text.split(" ");
+      print(l.length);
+    }
+}
 }
