@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:exp/app/home/assessmentPages/create_assessment_page.dart';
@@ -26,6 +27,22 @@ class AudioPage extends StatefulWidget {
 }
 
 class _AudioPageState extends State<AudioPage> {
+  Duration duration = Duration();
+  Timer? timer;
+
+  void addTime(){
+    final addSeconds = 1;
+
+    setState(() {
+      final seconds = duration.inSeconds + addSeconds;
+
+      duration = Duration(seconds: seconds);
+    });
+  }
+
+  void startTimer(){
+    timer = Timer.periodic(Duration(seconds: 1),(_)=> addTime());
+  }
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
@@ -36,6 +53,7 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    startTimer();
   }
 
   @override
@@ -72,6 +90,23 @@ class _AudioPageState extends State<AudioPage> {
             padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
             child: Column(
                 children: <Widget>[
+                  Container(
+                    child:
+                    Text(
+                      "Example test",
+                      style: TextStyle(fontSize: 30)
+                      ),
+                    
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child:
+                    Text(
+                      '${duration.inSeconds}',
+                      style: TextStyle(fontSize: 30,color: Colors.white)
+                      ),
+                    color: Colors.blue[600],
+                  ),
                   Text(
                     _text,
                     style: TextStyle(
@@ -80,6 +115,7 @@ class _AudioPageState extends State<AudioPage> {
                       color: Colors.blue[300],
                     ),
                   ),
+                  
                 ])
         ),
       ),
