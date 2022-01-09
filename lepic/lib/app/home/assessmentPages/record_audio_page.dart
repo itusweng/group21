@@ -59,7 +59,7 @@ class _AudioPageState extends State<AudioPage> {
     _speech = stt.SpeechToText();
   }
 
-  
+
   @override
   Widget build(BuildContext context) {
     String twoDigites(int n) => n.toString().padLeft(2,'0');
@@ -102,18 +102,18 @@ class _AudioPageState extends State<AudioPage> {
                   Container(
                     child:
                     Text(
-                      "Taste is how food feels in your mouth. Basically, it is whether it is good food or not. For example, I think McDonald’s tastes good, but some people think it tastes bad. I think dark chocolate tastes better than milk chocolate, but you might think the opposite. If something tastes of nothing, then it does not have a strong taste.",
-                      style: TextStyle(fontSize: 25)
-                      ),
-                    
+                        "Taste is how food feels in your mouth. Basically, it is whether it is good food or not. For example, I think McDonald’s tastes good, but some people think it tastes bad. I think dark chocolate tastes better than milk chocolate, but you might think the opposite. If something tastes of nothing, then it does not have a strong taste.",
+                        style: TextStyle(fontSize: 25)
+                    ),
+
                   ),
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child:
                     Text(
-                      'Reading Time: $minutes:$seconds',
-                      style: TextStyle(fontSize: 15,color: Colors.white)
-                      ),
+                        'Reading Time: $minutes:$seconds',
+                        style: TextStyle(fontSize: 15,color: Colors.white)
+                    ),
                     color: Colors.blue[600],
                   ),
                   Text(
@@ -124,7 +124,7 @@ class _AudioPageState extends State<AudioPage> {
                       color: Colors.blue[300],
                     ),
                   ),
-                  
+
                 ])
         ),
       ) : Center(
@@ -159,5 +159,3 @@ class _AudioPageState extends State<AudioPage> {
     }
   }
 }
-
-
