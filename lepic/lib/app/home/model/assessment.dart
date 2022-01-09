@@ -1,15 +1,21 @@
 class Assessment {
   Assessment({
     required this.assessmentName,
-    required this.textList,
+    required this.text,
+    required this.classId,
+    required this.assessId,
   });
 
   final String assessmentName;
-  final List<dynamic>? textList;
+  final String text;
+  final String classId;
+  final String assessId;
 
   factory Assessment.fromMap(Map<String, dynamic> data) {
     final String assessmentName = data['assessmentName'];
-    final List<dynamic>? textList = data['textList'];
-    return Assessment(assessmentName: assessmentName, textList: textList);
+    final String text = data['text'];
+    final String classId = data['classId'];
+    return Assessment(assessmentName: assessmentName, text: text, assessId: '',
+    classId: classId);
   }
 }

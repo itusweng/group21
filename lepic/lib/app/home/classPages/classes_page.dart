@@ -9,37 +9,7 @@ import 'package:provider/provider.dart';
 import 'create_class_page.dart';
 
 class ClassPage extends StatelessWidget {
-  const ClassPage({Key? key, required this.auth}) : super(key: key);
-  final AuthBase auth;
-
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      Navigator.pop(context, 'OK');
-      await auth.logOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure that you want to logout?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => _signOut(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
+  const ClassPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +26,11 @@ class ClassPage extends StatelessWidget {
         elevation: 1,
         actions: <Widget>[
           FloatingActionButton(
-              onPressed: () => _confirmSignOut(context),
-              heroTag: 'logout',
-              child: Icon(Icons.logout)),
+              onPressed: () => CreateClassPage.show(context),
+              heroTag: 'add',
+              child: Icon(Icons.add)),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          heroTag: 'add',
-          onPressed: () => CreateClassPage.show(context),
-          child: Icon(Icons.add)),
       body: _buildContents(context),
     );
   }

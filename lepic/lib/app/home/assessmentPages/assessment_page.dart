@@ -1,34 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'create_student_page.dart';
 
-class StudentPage extends StatefulWidget {
 
-  const StudentPage({ Key? key ,this.classId}) : super(key: key);
-  final String? classId;
+class AssessmentPage extends StatefulWidget {
+
+  const AssessmentPage({ Key? key }) : super(key: key);
+
 
   static Future<void> show(BuildContext context, String classId) async {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => StudentPage(classId: classId,),
+        builder: (context) => AssessmentPage(),
         fullscreenDialog: true,
       ),
     );
   }
   @override
-  _StudentPageState createState() => _StudentPageState();
+  _AssessmentPageState createState() => _AssessmentPageState();
 }
 
-class _StudentPageState extends State<StudentPage> {
+class _AssessmentPageState extends State<AssessmentPage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Students',
+          'Assessments',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -38,19 +38,19 @@ class _StudentPageState extends State<StudentPage> {
         elevation: 1,
         actions: <Widget>[
           FloatingActionButton(
-              onPressed: () => CreateStudentPage.show(context),
+              onPressed: () {},
               heroTag: 'add',
               child: Icon(Icons.add)),
         ],
       ),
-      body: _buildContents(context),
+      //body: _buildContents(context),
     );
   }
-
+  /*
   Widget _buildContents(BuildContext context) {
-  String id =FirebaseAuth.instance.currentUser!.uid;
-  final reference = FirebaseFirestore.instance.collection('students').where('classId', isEqualTo: widget.classId);
-  return StreamBuilder<QuerySnapshot>(
+    String id =FirebaseAuth.instance.currentUser!.uid;
+    final reference = FirebaseFirestore.instance.collection('students').where('classId', isEqualTo: widget.classId);
+    return StreamBuilder<QuerySnapshot>(
       stream: reference.get().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -61,7 +61,7 @@ class _StudentPageState extends State<StudentPage> {
         }
         return ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
             return ListTile(
               title: Text(data['studentFirstName']+' '+data['studentLastName']),
               subtitle: Text(data['studentClass']),
@@ -75,6 +75,8 @@ class _StudentPageState extends State<StudentPage> {
 
 
   }
+
+   */
 
 
 }

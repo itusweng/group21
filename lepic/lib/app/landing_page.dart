@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'home/classPages/classes_page.dart';
+import 'home/home_page.dart';
 import 'home/model/class.dart';
 import 'home/profilePages/user_info_page.dart';
 import 'package:exp/app/home/model/user.dart';
@@ -20,6 +21,7 @@ class LandingPage extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return StreamBuilder<User?>(
+
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -50,7 +52,7 @@ class LandingPage extends StatelessWidget{
             return Provider<Database>(
                 create: (_) => FirestoreDatabase(uid: uid),
                 //child:ClassPage(auth: auth)
-                child:ClassPage(auth: auth)
+                child:HomePage()
             );
           }
         else {

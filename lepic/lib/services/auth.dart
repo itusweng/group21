@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase{
-  Future<User?> getCurrentUser();
+  User? get currentUser;
+  //Future<User?> getCurrentUser();
   Stream<User?> authStateChanges();
   Future<User?> signInWithEmail({required String email, required String password});
   Future<User?> signUpWithEmail({required String email, required String password});
@@ -17,10 +18,15 @@ class Auth implements AuthBase{
   @override
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
+  /*
   @override
   Future<User?> getCurrentUser() async {
     return await _auth.currentUser;
   }
+
+   */
+  @override
+  User? get currentUser => _auth.currentUser;
   @override
   Future<String?> getCurrentUserEmail() async {
     String a = await _auth.currentUser!.email.toString();
