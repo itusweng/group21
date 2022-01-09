@@ -9,7 +9,7 @@ class ChartPage extends StatelessWidget {
 
 
   /// Creates a [LineChart] with sample data and no transition.
-  
+
 
   static List<charts.Series<LinearSales, num>> _createRandomData() {
     final random = new Random();
@@ -35,71 +35,71 @@ class ChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Chart',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          title: Text(
+            'Chart',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          centerTitle: true,
+          elevation: 1,
+
         ),
-        centerTitle: true,
-        elevation: 1,
-        
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(10.0),
-              height: 200,
-              width: 400,
-              child: new charts.LineChart(_createSampleData(), animate: true)
-            ),
-            SizedBox(height: 10,),
-            Container(
-              height: 40,
-              width: 300,
-              padding: EdgeInsets.all(10),
-              color: Colors.blue[200],
-              child: Text(
-                "Total Reading Time: "
+        body: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            children: [
+              Container(
+                  padding: EdgeInsets.all(10.0),
+                  height: 200,
+                  width: 400,
+                  child: new charts.LineChart(_createSampleData(), animate: true)
               ),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              height: 40,
-              width: 300,
-              padding: EdgeInsets.all(10),
-              color: Colors.blue[200],
-              child: Text(
-                "Last Reading Time: "
+              SizedBox(height: 10,),
+              Container(
+                height: 40,
+                width: 300,
+                padding: EdgeInsets.all(10),
+                color: Colors.blue[200],
+                child: Text(
+                    "Total Reading Time: "
+                ),
               ),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              height: 40,
-              width: 300,
-              padding: EdgeInsets.all(10),
-              color: Colors.blue[200],
-              child: Text(
-                "Total Words Read: "
+              SizedBox(height: 10,),
+              Container(
+                height: 40,
+                width: 300,
+                padding: EdgeInsets.all(10),
+                color: Colors.blue[200],
+                child: Text(
+                    "Last Reading Time: "
+                ),
               ),
-            ),
-            SizedBox(height:10),
-            Container(
-              height: 40,
-              width: 300,
-              padding: EdgeInsets.all(10),
-              color: Colors.blue[200],
-              child: Text(
-                "Last Words Read: "
+              SizedBox(height: 10,),
+              Container(
+                height: 40,
+                width: 300,
+                padding: EdgeInsets.all(10),
+                color: Colors.blue[200],
+                child: Text(
+                    "Total Words Read: "
+                ),
               ),
-            ),
-          ],
-        ),
-      )
+              SizedBox(height:10),
+              Container(
+                height: 40,
+                width: 300,
+                padding: EdgeInsets.all(10),
+                color: Colors.blue[200],
+                child: Text(
+                    "Last Words Read: "
+                ),
+              ),
+            ],
+          ),
+        )
     );
   }
   static List<charts.Series<LinearSales, int>> _createSampleData() {
@@ -122,7 +122,7 @@ class ChartPage extends StatelessWidget {
       )
     ];
   }
-  
+
 }
 
 class LinearSales {

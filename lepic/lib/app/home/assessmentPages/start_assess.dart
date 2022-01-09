@@ -55,15 +55,16 @@ class _StartAssessPageState extends State<StartAssessPage> {
         ],
 
       ),
-      body: Column(
-        children: [
-          Text("Please Select a Student to Assess Reading Fluency",
-            textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 20.0,),),
-          SizedBox(height: 8.0),
-          Expanded(
-            flex: 1,
-            //child: Center(
-              child: StreamBuilder<QuerySnapshot>(
+      body: SingleChildScrollView(
+
+          reverse: true,
+           child: Container(
+              child: Column(
+                  children: <Widget>[
+                        Text("Please Select a Student to Assess Reading Fluency",
+                          textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 20.0,),),
+                            SizedBox(height: 8.0),
+                  StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('students').where('classId', isEqualTo: widget.classId)
                     //.orderBy('studentId')
@@ -104,10 +105,10 @@ class _StartAssessPageState extends State<StartAssessPage> {
                   );
                 },
               ),
-            //),
-          ),
+                  ])
+           ),
 
-        ],
+
       ),
     );
   }

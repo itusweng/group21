@@ -82,8 +82,6 @@ class _AudioPageState extends State<AudioPage> {
           ),
           centerTitle: true,
           elevation: 1,
-          
-
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
@@ -155,7 +153,7 @@ class _AudioPageState extends State<AudioPage> {
                         color: Colors.blue[300],
                       ),
                     ),
-                    
+
 
                   ])
           ),
@@ -187,6 +185,7 @@ class _AudioPageState extends State<AudioPage> {
       stopTimer();
       setState(() => _isListening = false);
       _speech.stop();
+
     }
   }
 }
