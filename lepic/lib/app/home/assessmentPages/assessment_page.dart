@@ -69,7 +69,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
               title: Text(data['assessmentName']),
               subtitle: Text(data['className']),
               isThreeLine: true,
-              onTap: () => AudioPage.show(context),
+              onTap: () => StartAssessPage.show(context),
+              // onTap: () => AudioPage.show(context),
 
             );
           }).toList(),

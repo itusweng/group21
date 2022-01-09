@@ -13,7 +13,7 @@ class AudioPage extends StatefulWidget {
   const AudioPage({ Key? key }) : super(key: key);
 
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, String studentId) async {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
