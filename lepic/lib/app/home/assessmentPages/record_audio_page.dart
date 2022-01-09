@@ -82,12 +82,7 @@ class _AudioPageState extends State<AudioPage> {
           ),
           centerTitle: true,
           elevation: 1,
-          actions: <Widget>[
-            FloatingActionButton(
-                onPressed: () => CreateAssessmentPage.show(context),
-                heroTag: 'statics',
-                child: Icon(Icons.bar_chart)),
-          ],
+          
 
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -111,6 +106,16 @@ class _AudioPageState extends State<AudioPage> {
               padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
               child: Column(
                   children: <Widget>[
+                    ElevatedButton(
+                      child: const Text('Statistics'),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ChartPage())
+                        );
+                      },
+                    ),
+                    SizedBox(height: 20,),
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('assessments')
@@ -131,6 +136,7 @@ class _AudioPageState extends State<AudioPage> {
                         );
                       },
                     ),
+                    SizedBox(height: 20,),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child:
@@ -140,6 +146,7 @@ class _AudioPageState extends State<AudioPage> {
                       ),
                       color: Colors.blue[600],
                     ),
+                    SizedBox(height: 20,),
                     Text(
                       _text,
                       style: TextStyle(
@@ -148,15 +155,7 @@ class _AudioPageState extends State<AudioPage> {
                         color: Colors.blue[300],
                       ),
                     ),
-                    ElevatedButton(
-                      child: const Text('Open route'),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ChartPage())
-                        );
-                      },
-                    ),
+                    
 
                   ])
           ),
