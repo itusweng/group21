@@ -44,6 +44,10 @@ class _AudioPageState extends State<AudioPage> {
     timer = Timer.periodic(Duration(seconds: 1),(_)=> addTime());
   }
 
+  void stopTimer(){
+    setState(() => timer?.cancel());
+  }
+
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'Press the button and start speaking';
@@ -53,11 +57,15 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
-    startTimer();
   }
 
+  
   @override
   Widget build(BuildContext context) {
+    String twoDigites(int n) => n.toString().padLeft(2,'0');
+    final minutes = twoDigites(duration.inMinutes.remainder(60));
+    final seconds = twoDigites(duration.inSeconds.remainder(60));
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -102,8 +110,8 @@ class _AudioPageState extends State<AudioPage> {
                     padding: const EdgeInsets.all(10.0),
                     child:
                     Text(
-                      '${duration.inSeconds}',
-                      style: TextStyle(fontSize: 30,color: Colors.white)
+                      'Reading Time: $minutes:$seconds',
+                      style: TextStyle(fontSize: 15,color: Colors.white)
                       ),
                     color: Colors.blue[600],
                   ),
@@ -125,6 +133,7 @@ class _AudioPageState extends State<AudioPage> {
 
   void _listen() async {
     if (!_isListening) {
+      startTimer();
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
@@ -141,6 +150,7 @@ class _AudioPageState extends State<AudioPage> {
         );
       }
     } else {
+      stopTimer();
       setState(() => _isListening = false);
       _speech.stop();
     }
