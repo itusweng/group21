@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/app/home/statistics/statistics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:exp/app/home/assessmentPages/create_assessment_page.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -74,11 +75,18 @@ class _AudioPageState extends State<AudioPage> {
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
+          
         ),
         centerTitle: true,
         elevation: 1,
-
+        actions: <Widget>[
+          FloatingActionButton(
+              onPressed: () => CreateAssessmentPage.show(context),
+              heroTag: 'statics',
+              child: Icon(Icons.bar_chart)),
+        ],
       ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -122,6 +130,15 @@ class _AudioPageState extends State<AudioPage> {
                       fontSize: 20,
                       color: Colors.blue[300],
                     ),
+                  ),
+                  ElevatedButton(
+                    child: const Text('Open route'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChartPage())
+                      );
+                    },
                   ),
 
                 ])
