@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/app/home/assessmentPages/create_assessment_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -38,18 +39,18 @@ class _AssessmentPageState extends State<AssessmentPage> {
         elevation: 1,
         actions: <Widget>[
           FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => CreateAssessmentPage.show(context),
               heroTag: 'add',
               child: Icon(Icons.add)),
         ],
       ),
-      //body: _buildContents(context),
+      body: _buildContents(context),
     );
   }
-  /*
+
   Widget _buildContents(BuildContext context) {
     String id =FirebaseAuth.instance.currentUser!.uid;
-    final reference = FirebaseFirestore.instance.collection('students').where('classId', isEqualTo: widget.classId);
+    final reference = FirebaseFirestore.instance.collection('assessments');
     return StreamBuilder<QuerySnapshot>(
       stream: reference.get().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -63,8 +64,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
             return ListTile(
-              title: Text(data['studentFirstName']+' '+data['studentLastName']),
-              subtitle: Text(data['studentClass']),
+              title: Text(data['assessmentName']),
+              subtitle: Text(data['className']),
               isThreeLine: true,
 
             );
@@ -75,8 +76,6 @@ class _AssessmentPageState extends State<AssessmentPage> {
 
 
   }
-
-   */
 
 
 }

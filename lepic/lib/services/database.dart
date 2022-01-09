@@ -2,6 +2,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exp/app/home/model/assessment.dart';
 import 'package:exp/app/home/model/class.dart';
 import 'package:exp/app/home/model/student.dart';
 import 'package:exp/app/home/model/user.dart';
@@ -44,6 +45,26 @@ class FirestoreDatabase implements Database{
       print(e);
     }
   }
+  Future<void> createAssess(Assessment assessment) async {
+    try {
+      final assesId = assessment.assessId;
+      print(assesId);
+      final reference = FirebaseFirestore.instance.doc("assessments/$assesId");
+      final cId = assessment.classId;
+      await reference.set({
+        'assessmentName': assessment.assessmentName,
+        'className': assessment.className,
+        'assesId': assessment.assessId,
+        'classId': assessment.classId,
+        'text': assessment.text,
+      });
+      final classRef = FirebaseFirestore.instance.doc("users/$uid/classes/$cId");
+      await classRef.set({'assessList': FieldValue.arrayUnion([assessment.assessId])},SetOptions(merge: true));
+
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> createUser(Users user) async {
     try {
@@ -68,6 +89,7 @@ class FirestoreDatabase implements Database{
         'classId': classes.Id,
         'creatorName':classes.creatorName,
         'studentList': classes.studentList,
+        'assessList' : classes.assesList,
       });
     } catch (e) {
       print(e);
@@ -92,13 +114,7 @@ class FirestoreDatabase implements Database{
     path: ApiPath.allClasses(uid),
     builder: (data, documentId) => Classes.fromMap(data, documentId),
   );
-  /*
-  Stream<List<String>> classesStream() => _FsService.collectionStream(
-    path: ApiPath.allClasses(uid),
-    builder: (data, documentId) => Classes.fromMap(data, documentId).className,
-  );
 
-   */
 
   Future<void> _setData({required String path, required Map<String, dynamic> data}) async {
     final documentRef = FirebaseFirestore.instance.doc(path);

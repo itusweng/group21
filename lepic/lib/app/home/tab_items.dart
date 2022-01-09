@@ -10,8 +10,8 @@ class TabItemData {
   final IconData icon;
 
   static const Map<TabItem, TabItemData> allTabs = {
-    TabItem.classes: TabItemData(title: 'Classes', icon: Icons.work),
-    TabItem.assessments: TabItemData(title: 'Assessments', icon: Icons.view_headline),
+    TabItem.classes: TabItemData(title: 'Classes', icon: Icons.school),
+    TabItem.assessments: TabItemData(title: 'Assessments', icon: Icons.assignment),
     TabItem.profile: TabItemData(title: 'Account', icon: Icons.person),
   };
 }

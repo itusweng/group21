@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       child: CupertinoHomeScaffold(
         currentTab: _currentTab,
         onSelectTab: _select,
-        widgetBuilders: widgetBuilders,
+        //widgetBuilders: widgetBuilders,
         navigatorKeys: navigatorKeys,
       ),
     );

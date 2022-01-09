@@ -60,7 +60,8 @@ class _CreateClassPageState extends State<CreateClassPage> {
         final newClass = Classes(Id: id, className: _className ,
             classLevel: _classLevel ,
             creatorName: _creatorName ,
-            studentList: []);
+            studentList: [],
+            assesList: []);
 
         await widget.database.createClass(newClass);
         Navigator.of(context).pop();
