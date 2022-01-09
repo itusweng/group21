@@ -52,33 +52,46 @@ class ChartPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
+              padding: EdgeInsets.all(10.0),
+              height: 200,
+              width: 400,
               child: new charts.LineChart(_createSampleData(), animate: true)
             ),
+            SizedBox(height: 10,),
             Container(
-              padding: EdgeInsets.all(50.0),
+              height: 40,
+              width: 300,
+              padding: EdgeInsets.all(10),
               color: Colors.blue[200],
               child: Text(
                 "Total Reading Time: "
               ),
             ),
+            SizedBox(height: 10,),
             Container(
-              padding: EdgeInsets.all(50.0),
+              height: 40,
+              width: 300,
+              padding: EdgeInsets.all(10),
               color: Colors.blue[200],
               child: Text(
                 "Last Reading Time: "
               ),
             ),
+            SizedBox(height: 10,),
             Container(
-              padding: EdgeInsets.all(50.0),
+              height: 40,
+              width: 300,
+              padding: EdgeInsets.all(10),
               color: Colors.blue[200],
               child: Text(
                 "Total Words Read: "
               ),
             ),
+            SizedBox(height:10),
             Container(
-              padding: EdgeInsets.all(50.0),
+              height: 40,
+              width: 300,
+              padding: EdgeInsets.all(10),
               color: Colors.blue[200],
               child: Text(
                 "Last Words Read: "
@@ -93,8 +106,10 @@ class ChartPage extends StatelessWidget {
     final data = [
       new LinearSales(0, 5),
       new LinearSales(1, 25),
-      new LinearSales(2, 100),
-      new LinearSales(3, 75),
+      new LinearSales(2, 50),
+      new LinearSales(3, 90),
+      new LinearSales(4, 60),
+      new LinearSales(5, 70),
     ];
 
     return [
