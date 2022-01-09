@@ -40,7 +40,6 @@ class _CreateClassPageState extends State<CreateClassPage> {
 
     //Navigator.of(context).pop();
     try {
-
       final classFirst = await widget.database.classesStream().first;
       final allNames = classFirst.map((classes) => classes.className).toList();
       if (widget.classes != null) {

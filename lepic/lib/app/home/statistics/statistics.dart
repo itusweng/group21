@@ -31,68 +31,68 @@ class ChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Chart',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          title: Text(
+            'Chart',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          centerTitle: true,
+          elevation: 1,
+
         ),
-        centerTitle: true,
-        elevation: 1,
-        
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
-              child: new charts.TimeSeriesChart(
-                seriesList,
-                animate: animate,
-                dateTimeFactory: const charts.LocalDateTimeFactory(),
+        body: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(50.0),
+                color: Colors.blue[200],
+                child: new charts.TimeSeriesChart(
+                  seriesList,
+                  animate: animate,
+                  dateTimeFactory: const charts.LocalDateTimeFactory(),
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
-              child: Text(
-                "Total Reading Time: "
+              Container(
+                padding: EdgeInsets.all(50.0),
+                color: Colors.blue[200],
+                child: Text(
+                    "Total Reading Time: "
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
-              child: Text(
-                "Last Reading Time: "
+              Container(
+                padding: EdgeInsets.all(50.0),
+                color: Colors.blue[200],
+                child: Text(
+                    "Last Reading Time: "
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
-              child: Text(
-                "Total Words Read: "
+              Container(
+                padding: EdgeInsets.all(50.0),
+                color: Colors.blue[200],
+                child: Text(
+                    "Total Words Read: "
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(50.0),
-              color: Colors.blue[200],
-              child: Text(
-                "Last Words Read: "
+              Container(
+                padding: EdgeInsets.all(50.0),
+                color: Colors.blue[200],
+                child: Text(
+                    "Last Words Read: "
+                ),
               ),
-            ),
-          ],
-        ),
-      )
+            ],
+          ),
+        )
     );
-    
-    
-    
+
+
+
   }
-  
+
 }
 
 class TimeSeriesSales {

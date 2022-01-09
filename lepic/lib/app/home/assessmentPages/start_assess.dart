@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 
 class StartAssessPage extends StatefulWidget {
 
-  const StartAssessPage({Key? key}) : super(key: key);
-  static Future<void> show(BuildContext context) async {
+  const StartAssessPage({Key? key, this.assessId,this.classId }) : super(key: key);
+  final String? classId;
+  final String? assessId;
+  static Future<void> show(BuildContext context, String assessId, String classId) async {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => StartAssessPage(),
+        builder: (context) => StartAssessPage(assessId: assessId,classId: classId,),
         fullscreenDialog: true,
       ),
     );
@@ -25,7 +27,7 @@ class StartAssessPage extends StatefulWidget {
 }
 
 class _StartAssessPageState extends State<StartAssessPage> {
-  String dropdownValue = 'Select Student';
+
   var _studentId ;
   var setDefaultMake = true;
   @override
@@ -43,7 +45,8 @@ class _StartAssessPageState extends State<StartAssessPage> {
         elevation: 1,
         actions: <Widget>[
           TextButton(
-            onPressed: () => AudioPage.show(context, _studentId.toString()),
+            onPressed: () => AudioPage.show(context, _studentId.toString(), widget.assessId.toString()),
+            //onPressed: () => print( widget.assessId.toString()),
             child: Text('Start'),
             style: TextButton.styleFrom(
               primary: Colors.white,
@@ -62,8 +65,8 @@ class _StartAssessPageState extends State<StartAssessPage> {
             //child: Center(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('students')
-                    .orderBy('studentId')
+                    .collection('students').where('classId', isEqualTo: widget.classId)
+                    //.orderBy('studentId')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -75,7 +78,6 @@ class _StartAssessPageState extends State<StartAssessPage> {
                   // First item from the List will be displayed
                   if (setDefaultMake) {
                     _studentId = snapshot.data!.docs[0].get('studentId');
-                    debugPrint('setDefault make: $_studentId');
                   }
                   return DropdownButton(
                     isExpanded: false,
@@ -93,6 +95,7 @@ class _StartAssessPageState extends State<StartAssessPage> {
                           debugPrint('make selected: $value');
                           // Selected value will be stored
                           _studentId = value;
+
                           // Default dropdown value won't be displayed anymore
                           setDefaultMake = false;
                         },

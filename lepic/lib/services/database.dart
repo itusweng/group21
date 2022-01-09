@@ -54,7 +54,7 @@ class FirestoreDatabase implements Database{
       await reference.set({
         'assessmentName': assessment.assessmentName,
         'className': assessment.className,
-        'assesId': assessment.assessId,
+        'assessId': assessment.assessId,
         'classId': assessment.classId,
         'text': assessment.text,
       });
