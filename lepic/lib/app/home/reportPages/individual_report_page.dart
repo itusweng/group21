@@ -8,14 +8,15 @@ import 'package:flutter/material.dart';
 
 class IndividualReportPage extends StatefulWidget {
 
-  const IndividualReportPage({Key? key, this.assessId,this.classId }) : super(key: key);
-  final String? classId;
-  final String? assessId;
-  static Future<void> show(BuildContext context, String assessId, String classId) async {
+  const IndividualReportPage({Key? key, required this.resultId, required this.studentId }) : super(key: key);
+  final String resultId;
+  final String studentId;
+
+  static Future<void> show(BuildContext context, String resultId, String studentId) async {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => IndividualReportPage(assessId: assessId,classId: classId,),
+        builder: (context) => IndividualReportPage(resultId: resultId,studentId:studentId),
         fullscreenDialog: true,
       ),
     );
@@ -27,15 +28,20 @@ class IndividualReportPage extends StatefulWidget {
 }
 
 class _IndividualReportPageState extends State<IndividualReportPage> {
+  String firstName = '';
+  String lastName = '';
+  String fullName = '';
+  String date = '';
+  String totalReadingTime = '';
+  String assessmentName ='';
+  String assessId ='';
 
-  var _studentId ;
-  var setDefaultMake = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Select Student',
+          'Individual Report',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -43,73 +49,64 @@ class _IndividualReportPageState extends State<IndividualReportPage> {
         ),
         centerTitle: true,
         elevation: 1,
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => AudioPage.show(context, _studentId.toString(), widget.assessId.toString()),
-            //onPressed: () => print( widget.assessId.toString()),
-            child: Text('Start'),
-            style: TextButton.styleFrom(
-              primary: Colors.white,
-            ),
-          ),
-        ],
-
       ),
-      body: SingleChildScrollView(
-
-        reverse: true,
-        child: Container(
-            child: Column(
-                children: <Widget>[
-                  Text("Please Select a Student to Assess Reading Fluency",
-                    textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 20.0,),),
-                  SizedBox(height: 8.0),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('students').where('classId', isEqualTo: widget.classId)
-                    //.orderBy('studentId')
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      // Safety check to ensure that snapshot contains data
-                      // without this safety check, StreamBuilder dirty state warnings will be thrown
-                      if (!snapshot.hasData) return Container();
-                      // Set this value for default,
-                      // setDefault will change if an item was selected
-                      // First item from the List will be displayed
-                      if (setDefaultMake) {
-                        _studentId = snapshot.data!.docs[0].get('studentId');
-                      }
-                      return DropdownButton(
-                        isExpanded: false,
-                        value: _studentId,
-                        items: snapshot.data!.docs.map((value) {
-                          return DropdownMenuItem(
-                            value: value.get('studentId'),
-                            child: Text('${value.get('studentId')}'),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          debugPrint('selected onchange: $value');
-                          setState(
-                                () {
-                              debugPrint('make selected: $value');
-                              // Selected value will be stored
-                              _studentId = value;
-
-                              // Default dropdown value won't be displayed anymore
-                              setDefaultMake = false;
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ])
-        ),
-
-
-      ),
+        body: _buildContents(context),
     );
   }
+  Future<void> getStudentName() async{
+    String stuId = widget.studentId;
+    final reference = FirebaseFirestore.instance.doc('students/$stuId');
+    await reference.get().then((snapshot) =>
+    firstName = snapshot.data()!["studentFirstName"].toString()
+    );
+    await reference.get().then((snapshot) =>
+    lastName = snapshot.data()!["studentLastName"].toString()
+    );
+    fullName = firstName + lastName;
+    String resultId = widget.resultId;
+
+    final ref2 = FirebaseFirestore.instance.doc('results/$resultId');
+    await ref2.get().then((snapshot) =>
+    date = snapshot.data()!["date"].toString()
+    );
+    await ref2.get().then((snapshot) =>
+    totalReadingTime = snapshot.data()!["totalReadingTime"].toString()
+    );
+    await ref2.get().then((snapshot) =>
+    assessId = snapshot.data()!["assessId"].toString()
+    );
+    final ref3 = FirebaseFirestore.instance.doc('assessments/$assessId');
+    await ref3.get().then((snapshot) =>
+    assessmentName = snapshot.data()!["assessmentName"].toString()
+    );
+  }
+
+  Widget _buildContents(BuildContext context) {
+
+    return FutureBuilder(
+          future: getStudentName(),
+          builder: (context,snapshot) {
+            return Column(
+              children: [
+                SizedBox(height: 10,),
+                Container(
+                  height: 100,
+                  width: 350,
+                  padding: EdgeInsets.all(10),
+                  color: Colors.blue[200],
+                  child: Text(
+                      'The student $fullName had his/her reading fluency assessed in $date. He/She read the text $assessmentName in $totalReadingTime seconds.',
+                      style: TextStyle(fontSize: 12)
+                  ),
+                ),
+                SizedBox(height: 10,),
+              ],
+            );
+          },
+
+
+        );
+
+  }
+
 }

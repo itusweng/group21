@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:exp/app/home/reportPages/individual_report_page.dart';
+import 'package:exp/app/home/reportPages/assessments_of_student.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'create_student_page.dart';
@@ -67,8 +67,7 @@ class _StudentPageState extends State<StudentPage> {
               title: Text(data['studentFirstName']+' '+data['studentLastName']),
               subtitle: Text(data['studentClass']),
               isThreeLine: true,
-              onTap: () => IndividualReportPage(),
-
+              onTap: () => StudentAssessmentsPage.show(context,data['studentId'].toString()),
             );
           }).toList(),
         );
