@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exp/app/home/classPages/class_list_tile.dart';
 import 'package:exp/app/home/model/class.dart';
+import 'package:exp/app/home/reportPages/assessments_of_class.dart';
 import 'package:exp/app/home/reportPages/comparative_report.dart';
 import 'package:exp/app/home/studentPages/students_page.dart';
 import 'package:exp/services/database.dart';
@@ -47,7 +48,7 @@ class ClassPage extends StatelessWidget {
               ?.map((classes) => ClassListTile(
             classes: classes,
             onTap: () => StudentPage.show(context, classes.Id),
-            onLongPress: () => ComparativeReportPage(),
+            onLongPress: () => ClassAssessmentsPage.show(context, classes),
             //onTap: () => print(classes.Id),
           ))
               .toList() ??
