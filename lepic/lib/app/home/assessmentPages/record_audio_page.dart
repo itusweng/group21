@@ -41,13 +41,14 @@ class _AudioPageState extends State<AudioPage> {
   int totalWordsRead = 0;
   double numOfCorrectWordsReadPM = 0.0;
   int numOfIncorrectWords = 0;
+  bool _isButtonDisabled = true;
+
   Duration duration = Duration();
   Timer? timer;
-
+  late Results results;
 
   void addTime() {
     final addSeconds = 1;
-
     setState(() {
       final seconds = duration.inSeconds + addSeconds;
 
@@ -72,6 +73,7 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    _isButtonDisabled = true;
   }
 
 
@@ -92,15 +94,7 @@ class _AudioPageState extends State<AudioPage> {
           centerTitle: true,
           elevation: 1,
           actions: <Widget>[
-            ElevatedButton(
-              child: const Text('Statistics'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChartPage())
-                );
-              },
-            ),
+            _buildCounterButton(),
           ],
         ),
 
@@ -219,6 +213,7 @@ class _AudioPageState extends State<AudioPage> {
         numOfCorrectWordsReadPM = (totalWordsRead - numOfIncorrectWords)/totalReadingTime;
       }
       _saveResult();
+      setState(() => _isButtonDisabled = false);
     }
   }
   
@@ -231,7 +226,6 @@ void oneMinWord(){
 
 
   Future<void> _saveResult() async {
-    String id =FirebaseAuth.instance.currentUser!.uid;
     final resultId = Uuid().v4();
     final newResult = Results(assessId: widget.assessId, studentId: widget.studentId,
         resultId: resultId,
@@ -242,10 +236,17 @@ void oneMinWord(){
       numOfCorrectWordsReadPM: numOfCorrectWordsReadPM,
       numOfIncorrectWords: numOfIncorrectWords,
     );
+    results = newResult;
     await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createResult(newResult);
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
 
   }
-
-
+  Widget _buildCounterButton() {
+    return ElevatedButton(
+      child: const Text("Statistics"),
+      onPressed:_isButtonDisabled ? null : ()=>ChartPage.show(context,results,),
+    );
+  }
 }
+
+

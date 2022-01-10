@@ -9,13 +9,14 @@ class Results {
     required this.numOfCorrectWordsReadPM,
     required this.numOfIncorrectWords});
 
-  final String resultId;
-  final String studentId;
-  final String assessId;
-  final double totalReadingTime;
-  final double numOfWordsReadPM;
-  final int numOfWordsReadFM;
-  final double numOfCorrectWordsReadPM;
-  final int numOfIncorrectWords;
-  final String date;
+
+  final String? resultId;
+  final String? studentId;
+  final String? assessId;
+  final double? totalReadingTime;
+  final double? numOfWordsReadPM;
+  final int? numOfWordsReadFM;
+  final double? numOfCorrectWordsReadPM;
+  final int? numOfIncorrectWords;
+  final String? date;
 }

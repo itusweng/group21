@@ -1,12 +1,29 @@
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:exp/app/home/model/results.dart';
 import 'package:flutter/material.dart';
 
-class ChartPage extends StatelessWidget {
+class ChartPage extends StatefulWidget {
+  const ChartPage({Key? key, required this.results}) : super(key: key);
+  final Results results;
+
+  static Future<void> show(BuildContext context, Results results) async {
+
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ChartPage(results: results,),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+  @override
+  _ChartPageState createState() => _ChartPageState();
+}
+
+class _ChartPageState extends State<ChartPage> {
+
   late final List<charts.Series<dynamic, num>> seriesList;
   late final bool animate;
-
-
 
   /// Creates a [LineChart] with sample data and no transition.
 
@@ -34,6 +51,12 @@ class ChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String totalReadingTime = widget.results.totalReadingTime.toString();
+    String wordsReadPM = widget.results.numOfWordsReadPM.toString();
+    String wordsReadFM = widget.results.numOfWordsReadFM.toString();
+    String numOfCorrectWordsPM = widget.results.numOfCorrectWordsReadPM.toString();
+    String numIncorrect = widget.results.numOfIncorrectWords.toString();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -60,41 +83,56 @@ class ChartPage extends StatelessWidget {
               SizedBox(height: 10,),
               Container(
                 height: 40,
-                width: 300,
+                width: 350,
                 padding: EdgeInsets.all(10),
                 color: Colors.blue[200],
                 child: Text(
-                    "Total Reading Time: "
+                    "Total Reading Time: $totalReadingTime minute ",
+                    style: TextStyle(fontSize: 12)
                 ),
               ),
               SizedBox(height: 10,),
               Container(
                 height: 40,
-                width: 300,
+                width: 350,
                 padding: EdgeInsets.all(10),
                 color: Colors.blue[200],
                 child: Text(
-                    "Last Reading Time: "
+                    "Number of words read per minute: $wordsReadPM",
+                  style: TextStyle(fontSize: 12)
                 ),
               ),
               SizedBox(height: 10,),
               Container(
                 height: 40,
-                width: 300,
+                width: 350,
                 padding: EdgeInsets.all(10),
                 color: Colors.blue[200],
                 child: Text(
-                    "Total Words Read: "
+                    "Number of words read in the first minute: $wordsReadFM",
+                    style: TextStyle(fontSize: 12)
+                ),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                height: 40,
+                width: 350,
+                padding: EdgeInsets.all(10),
+                color: Colors.blue[200],
+                child: Text(
+                  "Number of correct words read per minute: $numOfCorrectWordsPM",
+                    style: TextStyle(fontSize: 12)
                 ),
               ),
               SizedBox(height:10),
               Container(
                 height: 40,
-                width: 300,
+                width: 350,
                 padding: EdgeInsets.all(10),
                 color: Colors.blue[200],
                 child: Text(
-                    "Last Words Read: "
+                    "Total number word incorrectly read: $numIncorrect ",
+                    style: TextStyle(fontSize: 12)
                 ),
               ),
             ],
