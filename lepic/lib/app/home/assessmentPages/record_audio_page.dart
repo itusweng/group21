@@ -1,19 +1,22 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:exp/app/home/assessmentPages/create_assessment_page.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:exp/app/home/model/results.dart';
+import 'package:exp/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:highlight_text/highlight_text.dart';
 import 'package:exp/app/home/statistics/statistics.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:uuid/uuid.dart';
+import 'package:date_format/date_format.dart';
+import 'package:word_selectable_text/word_selectable_text.dart';
 
 
 class AudioPage extends StatefulWidget {
 
-  const AudioPage({ Key? key, this.studentId, this.assessId }) : super(key: key);
-  final String? studentId;
-  final String? assessId;
+  const AudioPage({ Key? key, required this.studentId, required this.assessId }) : super(key: key);
+  final String studentId;
+  final String assessId;
 
   static Future<void> show(BuildContext context, String studentId, String assessId) async {
 
@@ -30,10 +33,17 @@ class AudioPage extends StatefulWidget {
 
 class _AudioPageState extends State<AudioPage> {
   var text = "Taste is how food feels in your mouth. Basically, it is whether it is good food or not. For example, I think McDonald’s tastes good, but some people think it tastes bad. I think dark chocolate tastes better than milk chocolate, but you might think the opposite. If something tastes of nothing, then it does not have a strong taste.";
-
+  final date = formatDate(DateTime.now(), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn]);
   var setDefaultMake = true;
+  double totalReadingTime = 0.0;
+  double numOfWordsReadPM = 0.0;
+  int numOfWordsReadFM = 0;
+  int totalWordsRead = 0;
+  double numOfCorrectWordsReadPM = 0.0;
+  int numOfIncorrectWords = 0;
   Duration duration = Duration();
   Timer? timer;
+
 
   void addTime() {
     final addSeconds = 1;
@@ -70,7 +80,6 @@ class _AudioPageState extends State<AudioPage> {
     String twoDigites(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigites(duration.inMinutes.remainder(60));
     final seconds = twoDigites(duration.inSeconds.remainder(60));
-
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -82,7 +91,19 @@ class _AudioPageState extends State<AudioPage> {
           ),
           centerTitle: true,
           elevation: 1,
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('Statistics'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChartPage())
+                );
+              },
+            ),
+          ],
         ),
+
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
           animate: _isListening,
@@ -94,7 +115,7 @@ class _AudioPageState extends State<AudioPage> {
           repeatPauseDuration: const Duration(milliseconds: 100),
           repeat: true,
           child: FloatingActionButton(
-            onPressed:  () {_listen();
+            onPressed:  () {_listen(minutes, seconds);
             Future.delayed(Duration(seconds:60)).whenComplete((){
               oneMinWord();}); 
             },
@@ -108,15 +129,6 @@ class _AudioPageState extends State<AudioPage> {
               padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
               child: Column(
                   children: <Widget>[
-                    ElevatedButton(
-                      child: const Text('Statistics'),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ChartPage())
-                        );
-                      },
-                    ),
                     SizedBox(height: 20,),
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -133,7 +145,7 @@ class _AudioPageState extends State<AudioPage> {
                           child:
                           Text(
                               text,
-                              style: TextStyle(fontSize: 25)
+                              style: TextStyle(fontSize: 18)
                           ),
                         );
                       },
@@ -149,16 +161,15 @@ class _AudioPageState extends State<AudioPage> {
                       color: Colors.blue[600],
                     ),
                     SizedBox(height: 20,),
-                    Text(
-                      _text,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.blue[300],
-                      ),
-                    ),
-
-
+              WordSelectableText(
+                  selectable:  true,
+                  highlight:  true,
+                  text: _text,
+                  onWordTapped: (word, index) {print("The word touched is $word");
+                  numOfIncorrectWords = numOfIncorrectWords+1; },
+                  style:  TextStyle(fontWeight: FontWeight.bold,fontSize:  20,
+                    color: Colors.blue[300],)
+              ),
                   ])
           ),
         )
@@ -166,7 +177,7 @@ class _AudioPageState extends State<AudioPage> {
     );
   }
 
-  void _listen() async {
+  Future<void> _listen(String minutes, String seconds) async {
     if (!_isListening) {
       startTimer();
       bool available = await _speech.initialize(
@@ -179,6 +190,7 @@ class _AudioPageState extends State<AudioPage> {
           onResult: (val) =>
               setState(() {
                 _text = val.recognizedWords;
+                print(_text);
                 if (val.hasConfidenceRating && val.confidence > 0) {
                   _confidence = val.confidence;
                 }
@@ -189,16 +201,51 @@ class _AudioPageState extends State<AudioPage> {
       stopTimer();
       setState(() => _isListening = false);
       _speech.stop();
-      
-      final List l = _text.split(" ");
+      final List<String> l = _text.split(" ");
       print(l.length);
+      totalWordsRead = l.length;
+      var min = int.parse(minutes);
+      var sec = int.parse(seconds);
+      assert(min is int);
+      assert(sec is int);
+      totalReadingTime = min + sec/60.0;
+      if(min==0){
+        numOfWordsReadPM = 0.0;
+        numOfWordsReadFM = totalWordsRead;
+        numOfCorrectWordsReadPM = 0.0;
+      }
+      else{
+        numOfWordsReadPM = totalWordsRead/totalReadingTime;
+        numOfCorrectWordsReadPM = (totalWordsRead - numOfIncorrectWords)/totalReadingTime;
+      }
+      _saveResult();
     }
   }
   
 void oneMinWord(){
     if(_isListening){
       final List l = _text.split(" ");
-      print(l.length);
+      numOfWordsReadFM = l.length;
     }
 }
+
+
+  Future<void> _saveResult() async {
+    String id =FirebaseAuth.instance.currentUser!.uid;
+    final resultId = Uuid().v4();
+    final newResult = Results(assessId: widget.assessId, studentId: widget.studentId,
+        resultId: resultId,
+        totalReadingTime: totalReadingTime,
+        date: date,
+      numOfWordsReadPM: numOfWordsReadPM,
+      numOfWordsReadFM: numOfWordsReadFM,
+      numOfCorrectWordsReadPM: numOfCorrectWordsReadPM,
+      numOfIncorrectWords: numOfIncorrectWords,
+    );
+    await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createResult(newResult);
+    Navigator.of(context).pop();
+
+  }
+
+
 }

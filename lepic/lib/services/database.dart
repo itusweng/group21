@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exp/app/home/model/assessment.dart';
 import 'package:exp/app/home/model/class.dart';
+import 'package:exp/app/home/model/results.dart';
 import 'package:exp/app/home/model/student.dart';
 import 'package:exp/app/home/model/user.dart';
 import 'package:exp/services/api_path.dart';
@@ -47,9 +48,8 @@ class FirestoreDatabase implements Database{
   }
   Future<void> createAssess(Assessment assessment) async {
     try {
-      final assesId = assessment.assessId;
-      print(assesId);
-      final reference = FirebaseFirestore.instance.doc("assessments/$assesId");
+      final assessId = assessment.assessId;
+      final reference = FirebaseFirestore.instance.doc("assessments/$assessId");
       final cId = assessment.classId;
       await reference.set({
         'assessmentName': assessment.assessmentName,
@@ -65,7 +65,28 @@ class FirestoreDatabase implements Database{
       print(e);
     }
   }
-
+  Future<void> createResult(Results results) async {
+    try {
+      final resultId = results.resultId;
+      final assessId = results.assessId;
+      final stuId = results.studentId;
+      print(assessId);
+      final reference = FirebaseFirestore.instance.doc("results/$resultId");
+      await reference.set({
+        'resultId': resultId,
+        'assessId': assessId,
+        'stuId': stuId,
+        'numOfWordsReadFM': results.numOfWordsReadFM,
+        'date': results.date,
+        'numOfWordsReadPM': results.numOfWordsReadPM,
+        'totalReadingTime': results.totalReadingTime,
+        'numOfCorrectWordsReadPM': results.numOfCorrectWordsReadPM,
+        'numOfIncorrectWords': results.numOfIncorrectWords,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
   Future<void> createUser(Users user) async {
     try {
       final reference = FirebaseFirestore.instance.doc("users/$uid");

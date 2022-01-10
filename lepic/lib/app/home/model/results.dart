@@ -1,5 +1,5 @@
-class Classes {
-  Classes({required this.resultId,
+class Results {
+  Results({required this.resultId,
     required this.studentId,
     required this.assessId,
     required this.date,
@@ -12,10 +12,10 @@ class Classes {
   final String resultId;
   final String studentId;
   final String assessId;
-  final String totalReadingTime;
-  final String numOfWordsReadPM;
-  final String numOfWordsReadFM;
-  final String numOfCorrectWordsReadPM;
-  final String numOfIncorrectWords;
-  final DateTime date;
+  final double totalReadingTime;
+  final double numOfWordsReadPM;
+  final int numOfWordsReadFM;
+  final double numOfCorrectWordsReadPM;
+  final int numOfIncorrectWords;
+  final String date;
 }
