@@ -41,12 +41,6 @@ class SignInPage extends StatelessWidget {
             text: "Sign up with Google",
             onPressed: _signInWithGoogle,
           ),
-          SizedBox(height: 10.0),
-          SignInButton(
-            Buttons.FacebookNew,
-            text: "Sign up with Facebook",
-            onPressed: () {},
-          ),
           SizedBox(height: 8.0),
           SignInButtonBuilder(
             text: 'Sign up with Email',

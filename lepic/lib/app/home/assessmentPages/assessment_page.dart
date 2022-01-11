@@ -52,7 +52,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
 
   Widget _buildContents(BuildContext context) {
     String id =FirebaseAuth.instance.currentUser!.uid;
-    final reference = FirebaseFirestore.instance.collection('assessments');
+    final reference = FirebaseFirestore.instance.collection('assessments').where('creatorId', isEqualTo: id);
     return StreamBuilder<QuerySnapshot>(
       stream: reference.get().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -62,9 +62,11 @@ class _AssessmentPageState extends State<AssessmentPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
+
         return ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+            print(data['assessId'].toString());
             return ListTile(
               title: Text(data['assessmentName']),
               subtitle: Text(data['className']),

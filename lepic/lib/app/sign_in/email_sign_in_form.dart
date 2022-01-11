@@ -19,6 +19,7 @@ class _EmailFormState extends State<EmailForm> {
   String get _password => _password_controller.text;
   EmailFormType _formType = EmailFormType.signIn;
 
+
   void submit() async {
     try {
       if (_formType == EmailFormType.signIn) {

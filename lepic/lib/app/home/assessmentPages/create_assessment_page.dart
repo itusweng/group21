@@ -45,7 +45,8 @@ class _CreateAssessmentPageState extends State<CreateAssessmentPage> {
     final newAssess = Assessment(assessId: assessId, classId: classId ,
         assessmentName: _assessName,
         text: _assessText,
-        className: _className);
+        className: _className,
+        creatorID: id);
     await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createAssess(newAssess);
     Navigator.of(context).pop();
 

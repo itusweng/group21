@@ -57,6 +57,7 @@ class FirestoreDatabase implements Database{
         'assessId': assessment.assessId,
         'classId': assessment.classId,
         'text': assessment.text,
+        'creatorId': assessment.creatorID,
       });
       final classRef = FirebaseFirestore.instance.doc("users/$uid/classes/$cId");
       await classRef.set({'assessList': FieldValue.arrayUnion([assessment.assessId])},SetOptions(merge: true));
