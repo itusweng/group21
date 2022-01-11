@@ -82,21 +82,23 @@ class _IndividualReportPageState extends State<IndividualReportPage> {
   }
 
   Widget _buildContents(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return FutureBuilder(
           future: getStudentName(),
           builder: (context,snapshot) {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 10,),
                 Container(
+                  width: screenWidth, // <- important for full screen width
+                  padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
                   height: 100,
-                  width: 350,
-                  padding: EdgeInsets.all(10),
-                  color: Colors.blue[200],
+                  color: Colors.white70,
                   child: Text(
                       'The student $fullName had his/her reading fluency assessed in $date. He/She read the text $assessmentName in $totalReadingTime seconds.',
-                      style: TextStyle(fontSize: 12)
+                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,)
                   ),
                 ),
                 SizedBox(height: 10,),

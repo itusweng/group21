@@ -42,6 +42,10 @@ class _AudioPageState extends State<AudioPage> {
   double numOfCorrectWordsReadPM = 0.0;
   int numOfIncorrectWords = 0;
   bool _isButtonDisabled = true;
+  bool _isButtonEnabled = true;
+  int len = 5;
+  bool res = false;
+  String? resId;
 
   Duration duration = Duration();
   Timer? timer;
@@ -74,6 +78,7 @@ class _AudioPageState extends State<AudioPage> {
     super.initState();
     _speech = stt.SpeechToText();
     _isButtonDisabled = true;
+    _isButtonEnabled = true;
   }
 
 
@@ -109,11 +114,11 @@ class _AudioPageState extends State<AudioPage> {
           repeatPauseDuration: const Duration(milliseconds: 100),
           repeat: true,
           child: FloatingActionButton(
-            onPressed:  () {_listen(minutes, seconds);
+            onPressed: _isButtonEnabled ? () {_listen(minutes, seconds);
             Future.delayed(Duration(seconds:60)).whenComplete((){
-              oneMinWord();}); 
-            },
-              
+              oneMinWord();});
+            } : null,
+
             child: Icon(_isListening ? Icons.mic : Icons.mic_none),
           ),
         ),
@@ -155,15 +160,15 @@ class _AudioPageState extends State<AudioPage> {
                       color: Colors.blue[600],
                     ),
                     SizedBox(height: 20,),
-              WordSelectableText(
-                  selectable:  true,
-                  highlight:  true,
-                  text: _text,
-                  onWordTapped: (word, index) {print("The word touched is $word");
-                  numOfIncorrectWords = numOfIncorrectWords+1; },
-                  style:  TextStyle(fontWeight: FontWeight.bold,fontSize:  20,
-                    color: Colors.blue[300],)
-              ),
+                    WordSelectableText(
+                        selectable:  true,
+                        highlight:  true,
+                        text: _text,
+                        onWordTapped: (word, index) {print("The word touched is $word");
+                        numOfIncorrectWords = numOfIncorrectWords+1; },
+                        style:  TextStyle(fontWeight: FontWeight.bold,fontSize:  20,
+                          color: Colors.blue[300],)
+                    ),
                   ])
           ),
         )
@@ -184,7 +189,7 @@ class _AudioPageState extends State<AudioPage> {
           onResult: (val) =>
               setState(() {
                 _text = val.recognizedWords;
-                print(_text);
+                //print(_text);
                 if (val.hasConfidenceRating && val.confidence > 0) {
                   _confidence = val.confidence;
                 }
@@ -196,7 +201,6 @@ class _AudioPageState extends State<AudioPage> {
       setState(() => _isListening = false);
       _speech.stop();
       final List<String> l = _text.split(" ");
-      print(l.length);
       totalWordsRead = l.length;
       var min = int.parse(minutes);
       var sec = int.parse(seconds);
@@ -214,33 +218,73 @@ class _AudioPageState extends State<AudioPage> {
       }
       _saveResult();
       setState(() => _isButtonDisabled = false);
+      setState(() => _isButtonEnabled = false);
+
     }
   }
-  
-void oneMinWord(){
+
+  void oneMinWord(){
     if(_isListening){
       final List l = _text.split(" ");
       numOfWordsReadFM = l.length;
     }
-}
+  }
 
 
   Future<void> _saveResult() async {
-    final resultId = Uuid().v4();
-    final newResult = Results(assessId: widget.assessId, studentId: widget.studentId,
+    await _checkResult();
+    if(res){
+      final resultId = Uuid().v4();
+      final newResult = Results(assessId: widget.assessId, studentId: widget.studentId,
         resultId: resultId,
         totalReadingTime: totalReadingTime,
         date: date,
-      numOfWordsReadPM: numOfWordsReadPM,
-      numOfWordsReadFM: numOfWordsReadFM,
-      numOfCorrectWordsReadPM: numOfCorrectWordsReadPM,
-      numOfIncorrectWords: numOfIncorrectWords,
-    );
-    results = newResult;
-    await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createResult(newResult);
-    //Navigator.of(context).pop();
+        numOfWordsReadPM: numOfWordsReadPM,
+        numOfWordsReadFM: numOfWordsReadFM,
+        numOfCorrectWordsReadPM: numOfCorrectWordsReadPM,
+        numOfIncorrectWords: numOfIncorrectWords,
+      );
+      results = newResult;
+      await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createResult(newResult);
+
+    }
+    else{
+      // if the student
+      print(resId);
+      final newResult = Results(assessId: widget.assessId, studentId: widget.studentId,
+        resultId: resId,
+        totalReadingTime: totalReadingTime,
+        date: date,
+        numOfWordsReadPM: numOfWordsReadPM,
+        numOfWordsReadFM: numOfWordsReadFM,
+        numOfCorrectWordsReadPM: numOfCorrectWordsReadPM,
+        numOfIncorrectWords: numOfIncorrectWords,
+      );
+      results = newResult;
+      await FirestoreDatabase(uid: FirebaseAuth.instance.currentUser!.uid).createResult(newResult);
+
+    }
 
   }
+  Future<void> _checkResult() async {
+    final reference = FirebaseFirestore.instance.collection('results').where('assessId', isEqualTo: widget.assessId).where('stuId', isEqualTo: widget.studentId);
+    await reference.get().then((QuerySnapshot querySnapshot) {
+      len = querySnapshot.docs.length;
+      print(len);
+      if(len!=0) {
+        resId = querySnapshot.docs[0].get('resultId').toString();
+        print(resId);
+      }
+
+    });
+    if(len==0){
+      res= true;
+    }
+    else{
+      res= false;
+    }
+  }
+
   Widget _buildCounterButton() {
     return ElevatedButton(
       child: const Text("Statistics"),
