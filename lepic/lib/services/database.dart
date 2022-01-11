@@ -132,6 +132,7 @@ class FirestoreDatabase implements Database{
         print(snapshot.data()));
     });
   }
+
   Stream<List<Classes>> classesStream() => _FsService.collectionStream(
     path: ApiPath.allClasses(uid),
     builder: (data, documentId) => Classes.fromMap(data, documentId),

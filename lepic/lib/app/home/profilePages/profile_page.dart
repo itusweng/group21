@@ -1,11 +1,7 @@
-
-import 'package:exp/app/home/classPages/classes_page.dart';
 import 'package:exp/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
 
-import '../../landing_page.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -18,7 +14,6 @@ class ProfilePage extends StatelessWidget {
       print(e.toString());
     }
   }
-
   Future<void> _confirmSignOut(BuildContext context) async {
     showDialog(
       context: context,
@@ -38,55 +33,85 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
         appBar: AppBar(
-        title: Text(
-        'Profile',
-        style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
+          backgroundColor: Colors.indigo,
+          title: Text(
+            'Profile',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
           centerTitle: true,
           elevation: 1,
           actions: <Widget>[
             TextButton(
-                onPressed: () => _confirmSignOut(context),
-                child: Text('Logout'),
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
+              onPressed: () => _confirmSignOut(context),
+              child: Text('Logout'),
+              style: TextButton.styleFrom(
+                primary: Colors.white,
               ),
             ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(130),
-            child: _buildUserInfo(Auth().currentUser),
-          ),
-
+    ]
         ),
-        //body: _buildContent(context),
+        backgroundColor: Colors.white70,
+        body: SafeArea(
+
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white70,
+                    backgroundImage: AssetImage('images/user.png')),
+
+                SizedBox(
+                  height: 20,
+                  width: 250,
+                  child: Divider(
+                    color: Colors.teal.shade100,
+                  ),
+                ),
+                Card(
+                    color: Colors.blueGrey,
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                    child: ListTile(
+                      leading: Icon(Icons.account_circle, color: Colors.black),
+                      title: Text(
+                        Auth().currentUser!.uid.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Open Sans',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                Card(
+                  color: Colors.blueGrey,
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    ),
+                    title: Text(
+                      Auth().currentUser!.email.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Open Sans',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ]),
+        ),
+      ),
     );
   }
-  Widget _buildUserInfo(User? user) {
-    return Column(
-      children: <Widget>[
-
-        SizedBox(height: 8),
-        if (user!.displayName != null)
-          Text(
-            user.displayName.toString(),
-            style: TextStyle(color: Colors.white),
-          ),
-        SizedBox(height: 8),
-        Text(
-          user.email.toString(),
-          style: TextStyle(color: Colors.white),
-        ),
-      ],
-    );
-  }
-
 }
