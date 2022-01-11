@@ -6,7 +6,6 @@ import 'package:exp/app/home/reportPages/comparative_report.dart';
 import 'package:exp/app/home/studentPages/students_page.dart';
 import 'package:exp/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:exp/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'create_class_page.dart';
 

@@ -12,9 +12,11 @@ class ClassListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(classes.className),
+      subtitle: Text(classes.classLevel),
       trailing: Icon(Icons.chevron_right),
       onTap: onTap,
       onLongPress: onLongPress,
+
       // TODO onlong press edit
     );
   }

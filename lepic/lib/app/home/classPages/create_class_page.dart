@@ -52,7 +52,7 @@ class _CreateClassPageState extends State<CreateClassPage> {
           messageText: 'Please choose a different class name',
 
         );
-        //Navigator.pop(context, 'OK');
+        Navigator.pop(context, 'OK');
       } else {
         //final id = documentIdFromCurrentDate();
         final id = Uuid().v4();

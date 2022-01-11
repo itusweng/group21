@@ -57,7 +57,7 @@ class _ComparativeReportPageState extends State<ComparativeReportPage> {
     );
   }
   Future<void> getStudentName() async{
-    String classId = widget.classes.Id;
+
     //print(classId);
     className = widget.classes.className.toString();
     //print(className);

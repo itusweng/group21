@@ -56,11 +56,11 @@ class _ChartPageState extends State<ChartPage> {
     String wordsReadFM = widget.results.numOfWordsReadFM.toString();
     String numOfCorrectWordsPM = widget.results.numOfCorrectWordsReadPM.toString();
     String numIncorrect = widget.results.numOfIncorrectWords.toString();
-
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Chart',
+            'Statistics of Assessment',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -70,10 +70,10 @@ class _ChartPageState extends State<ChartPage> {
           elevation: 1,
 
         ),
-        body: SingleChildScrollView(
-          reverse: true,
+        body: SafeArea(
           child: Column(
             children: [
+              /*
               Container(
                   padding: EdgeInsets.all(10.0),
                   height: 200,
@@ -81,14 +81,17 @@ class _ChartPageState extends State<ChartPage> {
                   child: new charts.LineChart(_createSampleData(), animate: true)
               ),
               SizedBox(height: 10,),
+
+               */
+              SizedBox(height: 20,),
               Container(
                 height: 40,
                 width: 350,
                 padding: EdgeInsets.all(10),
-                color: Colors.blue[200],
+                color: Colors.white70,
                 child: Text(
                     "Total Reading Time: $totalReadingTime minute ",
-                    style: TextStyle(fontSize: 12)
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,)
                 ),
               ),
               SizedBox(height: 10,),
@@ -96,10 +99,10 @@ class _ChartPageState extends State<ChartPage> {
                 height: 40,
                 width: 350,
                 padding: EdgeInsets.all(10),
-                color: Colors.blue[200],
+                color: Colors.white70,
                 child: Text(
                     "Number of words read per minute: $wordsReadPM",
-                  style: TextStyle(fontSize: 12)
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,)
                 ),
               ),
               SizedBox(height: 10,),
@@ -107,10 +110,10 @@ class _ChartPageState extends State<ChartPage> {
                 height: 40,
                 width: 350,
                 padding: EdgeInsets.all(10),
-                color: Colors.blue[200],
+                color: Colors.white70,
                 child: Text(
                     "Number of words read in the first minute: $wordsReadFM",
-                    style: TextStyle(fontSize: 12)
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,)
                 ),
               ),
               SizedBox(height: 10,),
@@ -118,10 +121,10 @@ class _ChartPageState extends State<ChartPage> {
                 height: 40,
                 width: 350,
                 padding: EdgeInsets.all(10),
-                color: Colors.blue[200],
+                color: Colors.white70,
                 child: Text(
                   "Number of correct words read per minute: $numOfCorrectWordsPM",
-                    style: TextStyle(fontSize: 12)
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,)
                 ),
               ),
               SizedBox(height:10),
@@ -129,10 +132,10 @@ class _ChartPageState extends State<ChartPage> {
                 height: 40,
                 width: 350,
                 padding: EdgeInsets.all(10),
-                color: Colors.blue[200],
+                color: Colors.white70,
                 child: Text(
                     "Total number word incorrectly read: $numIncorrect ",
-                    style: TextStyle(fontSize: 12)
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,)
                 ),
               ),
             ],
