@@ -11,14 +11,14 @@ class Classes {
   final String className;
   final String classLevel;
   final String creatorName;
-  final List<dynamic>? studentList;
+  final List<dynamic> studentList;
   final List<dynamic>? assesList;
 
   factory Classes.fromMap(Map<String, dynamic> data, String documentId) {
     final String className = data['className'];
     final String classLevel = data['classLevel'];
     final String creatorName = data['creatorName'];
-    final List<dynamic>? studentList = data['studentList'];
+    final List<dynamic> studentList = data['studentList'];
     final List<dynamic>? assesList = data['assesList'];
     return Classes(
         Id: documentId,

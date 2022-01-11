@@ -97,7 +97,7 @@ class _IndividualReportPageState extends State<IndividualReportPage> {
                   height: 100,
                   color: Colors.white70,
                   child: Text(
-                      'The student $fullName had his/her reading fluency assessed in $date. He/She read the text $assessmentName in $totalReadingTime seconds.',
+                      'The student $fullName had his/her reading fluency assessed in $date. He/She read the text $assessmentName in $totalReadingTime minutes.',
                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,)
                   ),
                 ),
